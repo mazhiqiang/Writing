@@ -1,0 +1,178 @@
+\documentclass[twoclumn]{article}
+%\usepackage{ctex}%根据自己的需要加载宏包。
+\usepackage{tipa}
+\usepackage{amsmath}%math
+\usepackage{amsthm}%proof
+\usepackage{xcolor}%color
+\usepackage[colorlinks,linkcolor=black,anchorcolor=black,citecolor=black]{hyperref}
+\pdfstringdefDisableCommands{\let\bm\@firstofone}%ref and hyperlink
+
+% ================= 设置版面，A4 页面高 29.7cm, 宽 21.0cm ================ %
+% 1英寸(inch) = 2.54 cm
+% 水平左边空距，默认为 1in + \hoffset %
+\setlength{\hoffset}{0.54cm}%-0.54
+% 垂直上边空距，默认为 1in + \voffset %
+\setlength{\voffset}{-1.54cm}%-0.54
+% 纸张内侧边界: 水平边空距 + \oddsidemargin (奇数页的左边界) = 2.00cm %
+\setlength{\oddsidemargin}{0cm}
+% 纸张外侧边界: 水平边空距 + \evensidemargin (偶数页的左边界) = 2.00cm %
+\setlength{\evensidemargin}{0cm}
+% 版心 17.0cm + 内侧边界 2.00cm + 外侧边界 2.00cm = 21.0cm %
+\setlength{\textwidth}{17.0cm}
+% 上页边到页眉的距离 %
+\setlength{\topmargin}{0.90cm}
+% 标题行高度 %
+\setlength{\headheight}{0.55cm}
+% 正文到标题的间距 %
+\setlength{\headsep}{0.45cm}
+% 正文底部到页脚距离 %
+\setlength{\footskip}{0.90cm}
+% 版心高度 22.90cm + 上页边空距 2.00cm + 页边页眉距 0.90cm + 标题行高 0.55cm %
+%         + 正文标题距 0.45cm + 正文页脚距 0.90cm + 下页边空距 2.00 = 29.70cm %
+\setlength{\textheight}{22.90cm}
+% ============================================================================== %
+\renewcommand{\baselinestretch}{1}                                % 行距
+\setlength{\parskip}{1ex plus0.5ex minus0.2ex}                 % 段落间距
+\setlength{\textwidth}{400pt}
+\setlength{\columnsep}{0.4cm}
+\setlength{\parindent}{2pt}
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}
+\begin{document}
+
+\begin{flushright}
+{\Large \textbf{Design of SMC with Actuator Saturation}}\\
+\today\\
+\end{flushright}
+\begin{flushleft}
+{\large \textbf{1 System Description and problem statement}}\\
+\end{flushleft}
+Consider the following class of nonlinear systems\\
+\begin{align}
+\begin{split}
+\dot{x}_1&=x_2\\
+\dot{x}_2&=x_3\\
+&\vdots\\
+\dot{x}_n&=f\left(x,t\right)+b_2\textit{sat}\left(\textit{u}\left(t\right)\right)
+\end{split}\label{eq:original eq}
+\end{align}
+The function $\textit{f}\left(\textit{x,t}\right)$ satisfies the classical condition for the existence and uniqueness.\@ $\textit{sat}\left(\textit{u}\right)$ is a saturation function and is defined as follows
+\begin{equation}
+\textit{sat}\left(\it{u}\right)=\textit{sign}\left(\it{u(t)}\right)\times
+\it{min}\left(\it{u_{max}},\vert{u}\vert\right)
+\end{equation}
+We make the following assumption for the above system:
+
+\begin{assumption}
+$b_2$ is a non-zero scalar.
+\end{assumption}
+\begin{assumption}
+Uncertain nonlinear function $f\left(x,t\right)$ satisfies \\
+$||f(x,t)||\le R_1||x||+R_2\quad \forall x\times t \in R^n\times R$ here $R_1$ and $R_2$ are positive constants.\label{as:predoom}
+\end{assumption}
+\begin{assumption}
+In a region $\Sigma$ in the state space, there exists a constant $Q$ such that\\\textcolor{red}{ $\forall x \in \Sigma ,\quad Q\ge R_1||x||+R_2+\beta$ where $\beta> 0$ }is a small positive constant which satisfies
+\begin{equation}
+\forall x\in\Sigma,\quad Q\le\delta u_{max}
+\end{equation}
+where $0<\delta<1$.\label{as:doom}
+\end{assumption}
+Let the switching function for the above system be\\
+\begin{equation}
+s:=c^T\left(\varepsilon\right)x\left(t\right)
+\end{equation}
+Here $\varepsilon$ is a design parameter which will be discussed later. Control input to ensure sliding mode $\left(s=0\right)$ in finite time can be defined as\\
+\begin{equation}
+u\left(t\right) := -\left(c{\left(\varepsilon\right)}^TB\right)^{-1}\{c^T\left(\varepsilon\right)Ax+Qsgn\left(s\right)\}\label{eq:controllaw}
+\end{equation}
+It should noted that the region $\Sigma$ in the state space is the region where stability with saturated actuator is ensured. Furthermore,we define the following matrices(\textcolor{blue}{we propose the following matrices which describes the tethered satellite system near the balance region}):\\
+$B:=\begin{bmatrix}0\\0\\0\\b_2\end{bmatrix}\quad A:= \begin{bmatrix}0 &1 &0 &\cdots &0\\
+0 &0 &1 &\cdots &0\\
+\vdots &\vdots &\vdots &\cdots &\vdots\\
+0 &0 &0 &\cdots &0\end{bmatrix}$\\
+\textcolor{blue}{
+$\begin{bmatrix}\dot{\lambda}\\\ddot{\lambda}\\\dot{\theta}\\\ddot{\theta}\end{bmatrix}=\begin{bmatrix}0 &1 &0 &0\\3 &0 &0 &2a\\0 &0 &0 &1\\0 &-2/a &-3 &0\end{bmatrix}\begin{bmatrix}\lambda\\\dot{\lambda}\\\theta\\\dot{\theta}\end{bmatrix}+\begin{bmatrix}0\\3a-T\\0\\0\end{bmatrix}\\
+\equiv
+\begin{bmatrix}\dot{\lambda}\\\ddot{\theta}\\\dot{\theta}\\\ddot{\lambda}\end{bmatrix}=\begin{bmatrix}0 &0 &0 &1\\0 &0 &-3 &-2/a\\0 &1 &0 &0\\3 &2a &0 &0\end{bmatrix}\begin{bmatrix}\lambda\\\dot{\theta}\\\theta\\\dot{\lambda}\end{bmatrix}+\begin{bmatrix}0\\0\\0\\3a-T\end{bmatrix}$\\}
+The objective is to design a sliding surface matrix $c\left(\varepsilon\right)$ such that $\forall x\in\Sigma$, the control law (\ref{eq:controllaw}) respects the saturation limit and resulting closed loop system remains stable.
+\begin{flushleft}
+{\large \textbf{2 Design of Switching Function}}\\
+\end{flushleft}
+Consider the following representation of the system define in (\ref{eq:original eq})
+\begin{align}
+\begin{split}
+\dot{z}_1 &= A_{11}z_1+A_{12}z_2\\
+\dot{z}_2 &= A_{21}z_1+A_{22}z_2+f\left(x,t\right)+b_2u\left(t\right)\label{eq:zeq1}
+\end{split}
+\end{align}
+Here
+\begin{center}
+$z_1:={\begin{bmatrix}x_1 &x_2 &\cdots &x_{n-1}\end{bmatrix}}^T$\\
+$z_2:=x_n$\\
+$\quad$\\
+$A_{11}=\begin{bmatrix}0 &I_{n-2}\\0 &0\end{bmatrix},\quad
+ A_{12}=\begin{bmatrix}0\\0\\ \vdots\\1\end{bmatrix},\quad
+ A_{21}=\begin{bmatrix}0 &\cdots &0\end{bmatrix},\quad
+ A_{22}=0$\\
+\end{center}
+It is convenient to design the switching function in $z$- coordinates. The switching function in $z$- coordinates is defined as\\
+\begin{align}
+s:=c^T\left(\varepsilon\right) x:=\begin{bmatrix}c_1\left(\varepsilon\right)&1\end{bmatrix}\begin{bmatrix}z_1\\z_2\end{bmatrix}
+\end{align}
+Review the following representation of the tethered system around the balance region
+\begin{flushleft}
+{\large \textbf{3 Design of $c_1\left(\varepsilon\right)$}}\\
+\end{flushleft}
+The control law(\ref{eq:controllaw}) ensures that sliding mode $s=0$ occurs in finite time. This leads to\\
+\begin{align}
+\begin{split}
+c_1\left(\varepsilon\right)z_1+z_2=0\\
+\Rightarrow z_2=-c_1\left(\varepsilon\right)z_1\label{eq:zeq2}
+\end{split}
+\end{align}
+Using(\ref{eq:zeq1}) and (\ref{eq:zeq2})
+\begin{equation}
+\dot{z}_1=\left(A_{11}-A_{12}c_1\left(\varepsilon\right)\right)z_1
+\end{equation}
+$c_1\left(\varepsilon\right)$ should be designed such that the above closed loop system remains stable.$c_1\left(\varepsilon\right)$ is defined as follows
+\begin{equation}
+c_1\left(\varepsilon\right):={{A_{12}^T}}P_1\left(\varepsilon\right)
+\end{equation}
+$P_1\left(\varepsilon\right)>0$ is a symmetric matrix and obtained by solving the algebraic Riccati equation(ARE)
+\begin{equation}
+A_{11}^TP_1\left(\varepsilon\right)+P_1\left(\varepsilon\right)A_{11}-P_1\left(\varepsilon\right)A_{12}A_{12}^TP_1\left(\varepsilon\right)+Q_1\left(\varepsilon\right)=0
+\end{equation}
+There is some proof given to ensure that ... is omitted.\\
+And then the input can be designed as
+\begin{align}
+\begin{split}
+u\left(t\right)&=-\left(b_2\right)^{-1}\{c\left(\varepsilon\right)^TAx+Qsign\left(s\right)\}\\
+&=-\left(b_2\right)^{-1}c_1\left(\varepsilon\right)\bar{x}-\left(b_2\right)^{-1}Qsign(s)
+\end{split}
+\end{align}
+where $\bar{x}=[x_2\quad x_3\quad \cdots\quad x_n]$, and $Q$ satisfies the \textcolor{red}{assumption \ref{as:doom}}.\\
+Consider the Lyapunov condition
+\begin{align}
+\begin{split}
+\dot{V}&=\frac{1}{2}s\dot{s}\\
+&=s\left(b_2\right)^{-1}\left(-f\left(x,t\right)-Qsign(s)\right)
+\end{split}
+\end{align}
+ensure $\dot{V}<0$ in finite time, we should guarantee that the assumption \ref{as:doom} and \ref{as:predoom} is satisfied.\\
+Review the assumption \ref{as:doom} and the tethered system linear state equation\\
+In a region $\Sigma$ in the state space, there exists a constant $Q$ such that\\$\forall x \in \Sigma ,\quad Q\ge R_1||x||+R_2+\beta$ where $\beta> 0$ is a small positive constant which satisfies
+$\forall x\in\Sigma,\quad Q\le\delta u_{max}$, where $0<\delta<1$.\\
+\textcolor{blue}{
+$\begin{bmatrix}\dot{\lambda}\\\ddot{\lambda}\\\dot{\theta}\\\ddot{\theta}\end{bmatrix}=\begin{bmatrix}0 &1 &0 &0\\3 &0 &0 &2a\\0 &0 &0 &1\\0 &-2/a &-3 &0\end{bmatrix}\begin{bmatrix}\lambda\\\dot{\lambda}\\\theta\\\dot{\theta}\end{bmatrix}+\begin{bmatrix}0\\3a-T\\0\\0\end{bmatrix}\\
+\equiv
+\begin{bmatrix}\dot{\lambda}\\\ddot{\theta}\\\dot{\theta}\\\ddot{\lambda}\end{bmatrix}=\begin{bmatrix}0 &0 &0 &1\\0 &0 &-3 &-2/a\\0 &1 &0 &0\\3 &2a &0 &0\end{bmatrix}\begin{bmatrix}\lambda\\\dot{\theta}\\\theta\\\dot{\lambda}\end{bmatrix}+\begin{bmatrix}0\\0\\0\\3a-T\end{bmatrix}$\\}
+we can get that 
+\begin{align}
+\begin{split}
+f\left(x,t\right) &= 3x_1\left(t\right)+2ax_2\left(t\right)\\
+&= 3\lambda\left(t\right)+2a\dot{\theta}\left(t\right)
+\end{split}
+\end{align}
+then we need to find the $Q>||3\lambda\left(t\right)+2a\dot{\theta}\left(t\right)||$ and $Q<\delta u_{max}$, which $u_{max} = 3a$ (when $T = 0$), and we can't find a Q that is reasonable. \\
+\end{document}
+
