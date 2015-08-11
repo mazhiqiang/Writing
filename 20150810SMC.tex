@@ -61,22 +61,7 @@ The function $\textit{f}\left(\textit{x,t}\right)$ satisfies the classical condi
 \textit{sat}\left(\it{u}\right)=\textit{sign}\left(\it{u(t)}\right)\times
 \it{min}\left(\it{u_{max}},\vert{u}\vert\right)
 \end{equation}
-We make the following assumption for the above system:
 
-\begin{assumption}
-$b_2$ is a non-zero scalar.
-\end{assumption}
-\begin{assumption}
-Uncertain nonlinear function $f\left(x,t\right)$ satisfies \\
-$||f(x,t)||\le R_1||x||+R_2\quad \forall x\times t \in R^n\times R$ here $R_1$ and $R_2$ are positive constants.\label{as:predoom}
-\end{assumption}
-\begin{assumption}
-In a region $\Sigma$ in the state space, there exists a constant $Q$ such that\\\textcolor{red}{ $\forall x \in \Sigma ,\quad Q\ge R_1||x||+R_2+\beta$ where $\beta> 0$ }is a small positive constant which satisfies
-\begin{equation}
-\forall x\in\Sigma,\quad Q\le\delta u_{max}
-\end{equation}
-where $0<\delta<1$.\label{as:doom}
-\end{assumption}
 Let the switching function for the above system be\\
 \begin{equation}
 s:=c^T\left(\varepsilon\right)x\left(t\right)\label{eq:mode}
@@ -148,8 +133,8 @@ A_{11}^TP_1\left(\varepsilon\right)+P_1\left(\varepsilon\right)A_{11}-P_1\left(\
 The saturation of an actuator is such a common situation that we propose the new design of sliding mode controller. Using (\ref{eq:mode})\\
 \begin{align}
 \begin{split}
-\dot{s} &= c_1\left(\varepsilon\right)\bar{x}+x_n\\
-&=\bar{f}\left(x\right)+sat\left(u\left(t\right)\right)
+\dot{s} &= c_1\left(\varepsilon\right)\bar{x}+\dot{x}_n\\
+&=\bar{f}\left(x\right)+b_2sat\left(u\left(t\right)\right)
 \end{split}
 \end{align}
 where\\
@@ -163,7 +148,7 @@ sat\left(u\right)=
 \end{align}
 The function $sat\left(u\right)$ can be expressed as\\
 \begin{align}
-sat\left(u\right) = R\left(u\right)*u
+sat\left(u\right) = R\left(u\right)u
 \end{align}
 where\\
 \begin{align}
@@ -174,5 +159,37 @@ R\left(u\right) =
     \frac{-u_m}{u}  &u<-u_m
     \end{cases}
 \end{align}
+$R\left(u\right)$ may reach the maximum 1 when $u$ doesn't saturate, so there exists $k$ satisfying\\
+\begin{equation}
+0 < k \le R\left(u\right) \le 1
+\end{equation}
+We design the control law as\\
+\begin{equation}
+u\left(t\right)=-\delta sign\left(s\right) - \phi s - u_s\left(t\right)
+\end{equation}
+where\\
+\begin{align}
+u_s\left(t\right) &= \frac{\mu}{s}\zeta|s||f|=\mu\zeta sign\left(s\right)|f|\\
+\dot{\zeta} &= \zeta^3|s||f|
+\end{align}
+We select Lyapunov function as\\
+\begin{equation}
+V = \frac{1}{2}s^2+\frac{1}{2}\mu\gamma^2
+\end{equation}
+where $\gamma = k - \zeta^{-1}$\\
+So the differential Lyapunov function is\\
+\begin{align}
+\begin{split}
+\dot{V} &= s\dot{s}+\mu\gamma\dot{\gamma}\\
+&=s\left(\bar{f}+b_2sat\left(u\left(t\right)\right)\right)+\mu\left(k-\zeta^{-1}\right)\dot{\gamma}\\
+&=s\bar{f}+s\left(-R\left(\delta sign\left(s\right)+\phi s\right)\left(\delta sign\left(s\right)+\phi s\right)
+-R\left(u_s\left(t\right)\right)u_s\left(t\right)\right)\\
+&+\mu\left(k-\zeta^{-1}\right)\zeta^{-2}\dot{\zeta}\\
+&\le |s||f|-sk\left(\delta sign\left(s\right)+\phi s\right)\underbrace{-sk\mu\zeta sign(s)|f|+k\mu \zeta^{-2}\zeta^{3}|s||f|}_{{}=0}
+-\mu \zeta^{-1}\zeta^{-2}\zeta^3|s||f|\\
+&\le \left(1-\mu\right)|s||f|-sk\left(\delta sign\left(s\right)+\phi s\right)
+\end{split}
+\end{align}
+where $0 < k \le 1$ and $\mu > 1$, $\dot{V}<0$.
 \end{document}
 

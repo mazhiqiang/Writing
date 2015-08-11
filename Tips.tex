@@ -1,0 +1,63 @@
+\documentclass[twoclumn]{article}
+%\usepackage{ctex}%根据自己的需要加载宏包。
+\usepackage{tipa}
+\usepackage{amsmath}%math
+\usepackage{amsthm}%proof
+\usepackage{xcolor}%color
+\usepackage[colorlinks,linkcolor=black,anchorcolor=black,citecolor=black]{hyperref}
+\pdfstringdefDisableCommands{\let\bm\@firstofone}%ref and hyperlink
+
+% ================= 设置版面，A4 页面高 29.7cm, 宽 21.0cm ================ %
+% 1英寸(inch) = 2.54 cm
+% 水平左边空距，默认为 1in + \hoffset %
+\setlength{\hoffset}{0.54cm}%-0.54
+% 垂直上边空距，默认为 1in + \voffset %
+\setlength{\voffset}{-1.54cm}%-0.54
+% 纸张内侧边界: 水平边空距 + \oddsidemargin (奇数页的左边界) = 2.00cm %
+\setlength{\oddsidemargin}{0cm}
+% 纸张外侧边界: 水平边空距 + \evensidemargin (偶数页的左边界) = 2.00cm %
+\setlength{\evensidemargin}{0cm}
+% 版心 17.0cm + 内侧边界 2.00cm + 外侧边界 2.00cm = 21.0cm %
+\setlength{\textwidth}{17.0cm}
+% 上页边到页眉的距离 %
+\setlength{\topmargin}{0.90cm}
+% 标题行高度 %
+\setlength{\headheight}{0.55cm}
+% 正文到标题的间距 %
+\setlength{\headsep}{0.45cm}
+% 正文底部到页脚距离 %
+\setlength{\footskip}{0.90cm}
+% 版心高度 22.90cm + 上页边空距 2.00cm + 页边页眉距 0.90cm + 标题行高 0.55cm %
+%         + 正文标题距 0.45cm + 正文页脚距 0.90cm + 下页边空距 2.00 = 29.70cm %
+\setlength{\textheight}{22.90cm}
+% ============================================================================== %
+\renewcommand{\baselinestretch}{1}                                % 行距
+\setlength{\parskip}{1ex plus0.5ex minus0.2ex}                 % 段落间距
+\setlength{\textwidth}{400pt}
+\setlength{\columnsep}{0.4cm}
+\setlength{\parindent}{2pt}
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}
+\begin{document}
+\begin{flushright}
+{\Large{Tips\\}}
+\today
+\end{flushright}
+The conventional SMC design approach consists of two steps. First, a sliding manifold is designed such that the system trajectory along the manifold acquires certain desired properties. Then, a discontinuous control is designed such that the system trajectories reach the manifold in finite time\cite{Zhu2011Adaptive}.\\
+Attitude kinematics represented by four unitary quaternions is given as follows:\\
+\begin{align}
+\begin{bmatrix}
+\dot{q}_0\\\dot{q}
+\end{bmatrix}
+=1/2Q^T(q_0,q)\omega
+\end{align}
+where $q_0=cos(\Phi/2)$ and $q=[q_1\quad q_2\quad q_3]^T=\Gamma sin(\Phi/2)$ are subject to the constraint $q_0^2+q^Tq=1$.Here, $\Phi$ denotes the rotation angle about the Euler axis, which is determined by the unitary vector $\Gamma$, $Q$ with $q$ satisfying\\
+\begin{align}
+q = \begin{bmatrix}
+0 &-q_3 &q_2\\q_3 &0 &-q_1\\-q_2 &q_1 &0
+\end{bmatrix}
+\end{align}
+and $\omega$ the angular velocity of the unformed spacecraft in the body fixed frame.\cite{Hu2009Robust}
+\bibliography{refdatabase}
+\bibliographystyle{ieeetr}
+\end{document}
