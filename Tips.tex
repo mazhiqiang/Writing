@@ -43,7 +43,11 @@
 {\Large{Tips\\}}
 \today
 \end{flushright}
+%%%%
+\noindent\rule[0.25\baselineskip]{\textwidth}{2pt}
 The conventional SMC design approach consists of two steps. First, a sliding manifold is designed such that the system trajectory along the manifold acquires certain desired properties. Then, a discontinuous control is designed such that the system trajectories reach the manifold in finite time\cite{Zhu2011Adaptive}.\\
+%%%%
+\noindent\rule[0.25\baselineskip]{\textwidth}{2pt}
 Attitude kinematics represented by four unitary quaternions is given as follows:\\
 \begin{align}
 \begin{bmatrix}
@@ -58,6 +62,9 @@ q = \begin{bmatrix}
 \end{bmatrix}
 \end{align}
 and $\omega$ the angular velocity of the unformed spacecraft in the body fixed frame.\cite{Hu2009Robust}
+%%%%
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{2pt}\par
+Control law also contain $u_{vs}$, the variable structure component. This component is to be chosen to ensure that the sliding surface $s=0$ is attractive and can be reached in finite time, as shown next\cite{Bo08kovic2001Robust}.
 \bibliography{refdatabase}
 \bibliographystyle{ieeetr}
 \end{document}
