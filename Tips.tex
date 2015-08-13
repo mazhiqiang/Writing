@@ -65,6 +65,26 @@ and $\omega$ the angular velocity of the unformed spacecraft in the body fixed f
 %%%%
 \par\noindent\rule[0.25\baselineskip]{\textwidth}{2pt}\par
 Control law also contain $u_{vs}$, the variable structure component. This component is to be chosen to ensure that the sliding surface $s=0$ is attractive and can be reached in finite time, as shown next\cite{Bo08kovic2001Robust}.
+%%%%
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{2pt}\par
+\begin{equation}
+\hat{x}(t) = Tx(t)=\begin{bmatrix}T_1\\T_2\end{bmatrix}x(t)
+\end{equation}
+where the transformation $T$ is chosen such that\\
+\begin{equation}
+TB=\begin{bmatrix}0\\B_1\end{bmatrix}
+\end{equation}
+In terms of transformed state $\hat{x}(t)$, the considered system can be described as\\
+\begin{equation}
+\begin{split}
+\dot{\hat{x}} &= \hat{A} \hat{x} + \hat{B} g(T^{-1}\hat{x},t) + \hat{B} sat(u(t))\\
+\hat{A} &= TAT^{-1},\quad \hat{B} = TB\\
+S(t) &= FT^{-1}\hat{x}(t)\\
+    &= \delta \hat{x}(t)\\
+    &= \delta_1 \hat{x}_1(t) + \delta_2 \hat{x}_2(t)
+\end{split}
+\end{equation}
+where $\delta_2$ is invertible\cite{4539266}.
 \bibliography{refdatabase}
 \bibliographystyle{ieeetr}
 \end{document}
